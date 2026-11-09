@@ -1,0 +1,18 @@
+{
+  "edition": "Independent personal Cloudflare Workers + D1 hosting",
+  "based_on_source_commit": "af5cd230c327a3caf767aa4948ca28351e4f77c2",
+  "prepared_date_india": "2026-10-29",
+  "checks": {
+    "tests": 70,
+    "all_tests_passed": true,
+    "typescript": "passed",
+    "sqlite_migrations": "passed",
+    "local_d1_migrations": 8,
+    "production_build": "passed",
+    "cloudflare_deployment_dry_run": "passed",
+    "script_syntax": "passed"
+  },
+  "browser_login_flow": "unverified: development preview host was rejected by Vite allowedHosts",
+  "remote_deployment": "not performed; requires the user to authenticate to their Cloudflare account",
+  "data_migration": "not performed; no production records or credentials included"
+}

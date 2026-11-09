@@ -1,0 +1,2 @@
+export const reserveLoginSql='INSERT INTO auth_attempts(key,bucket,attempts,expires_at) VALUES(?,?,1,?) ON CONFLICT(key) DO UPDATE SET bucket=excluded.bucket,attempts=CASE WHEN auth_attempts.bucket=excluded.bucket THEN auth_attempts.attempts+1 ELSE 1 END,expires_at=excluded.expires_at WHERE auth_attempts.bucket!=excluded.bucket OR auth_attempts.attempts<10';
+export async function loginKey(ip:string,secret:string){return Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',new TextEncoder().encode(secret+'|'+ip)))).map(v=>v.toString(16).padStart(2,'0')).join('');}

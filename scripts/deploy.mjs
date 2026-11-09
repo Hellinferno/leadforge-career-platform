@@ -1,0 +1,2 @@
+import {configured,frameworkBuild,run} from './cli.mjs';
+try{const config=configured();console.log('Deploying '+config.name+' and applying migrations to '+config.d1_databases[0].database_name+'.');await frameworkBuild();await run(['d1','migrations','apply','DB','--remote','--config','wrangler.jsonc']);await run(['deploy','--config','dist/server/wrangler.json']);console.log('Deployment complete. For your FIRST deployment, run pnpm password:set before signing in. Later deployments keep existing secrets.');}catch(error){console.error(error.message);process.exitCode=1;}
