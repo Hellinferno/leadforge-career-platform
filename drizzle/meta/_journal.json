@@ -57,6 +57,20 @@
       "when": 1793215177501,
       "tag": "0007_lame_shinobi_shaw",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1793215188000,
+      "tag": "0008_resumes",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1793215199000,
+      "tag": "0009_users",
+      "breakpoints": true
     }
   ]
 }

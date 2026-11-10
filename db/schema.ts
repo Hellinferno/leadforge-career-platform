@@ -62,3 +62,12 @@ export const resumes = sqliteTable("resumes", {
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at").notNull(),
 }, t => [index("resumes_owner_updated").on(t.ownerId, t.updatedAt)]);
+
+export const users = sqliteTable("users", {
+  id: text("id").primaryKey(),
+  email: text("email").notNull(),
+  passwordHash: text("password_hash").notNull(),
+  name: text("name").notNull().default(""),
+  createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at").notNull(),
+}, t => [uniqueIndex("users_email_unique").on(t.email)]);
