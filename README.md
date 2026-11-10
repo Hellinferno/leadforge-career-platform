@@ -1,31 +1,63 @@
-# Leadforge — independent personal hosting
+# Leadforge — AI-Powered Career Platform, ATS Resume Builder & Referral Hub
 
-Read [START_HERE.md](./START_HERE.md) for the complete Windows-friendly setup and deployment walkthrough.
+Leadforge is an independent, high-performance career acceleration platform built on **Cloudflare Workers, D1 SQLite, Vinext (Next.js on Vite), and React 19**.
 
-This is an independent Cloudflare Workers + D1 edition of Ravi's private career app. It includes company/public-PDF research, source-backed professional contact discovery, LinkedIn/Instagram/X archive imports, reviewed profile linking, a career contact list, opportunities, a referral pipeline, editable outreach drafts and a manual activity journal.
+Repository: [https://github.com/Hellinferno/leadforge-career-platform](https://github.com/Hellinferno/leadforge-career-platform)
 
-## Runtime
+---
 
-- Vinext + React, Cloudflare Vite plugin, Workers, D1, Drizzle migrations.
-- Node 24+ and pnpm 11.25.0 for local tooling.
-- `worker.ts` delegates to Vinext, forces HTTPS outside local development, strips obsolete identity headers and supplies the trusted request origin.
-- `app/auth.ts` validates signed session cookies. Client-supplied identity headers never establish a user.
-- One personal owner, stable ID `owner:primary`. No public signup or automatic import of the old hosting database.
-- Salted PBKDF2-SHA256 password hashes (100,000 iterations, within the Workers Web Crypto cap), HMAC-signed seven-day sessions and credential-version invalidation on reset. Login permits ten attempts per hashed IP key per 15-minute bucket, reserved atomically in D1. Production cookies use `__Host-`, Secure, HttpOnly and SameSite=Strict. Login/logout require exact same-origin POSTs.
-- `SESSION_SECRET` and `OWNER_PASSWORD_HASH` are secret bindings configured by `pnpm password:set`, never committed or sent to the browser.
+## Key Features
 
-## Commands
+1. **Multi-User SaaS Architecture & Isolated Workspaces**:
+   - Secure multi-user authentication with salt-hashed PBKDF2 (100,000 iterations) and HMAC-signed session cookies.
+   - Built-in public registration (`/login?tab=register`) with per-user `userId` database isolation in Cloudflare D1 SQLite.
+   - Backward-compatible single-owner fallback mode for local development.
 
-`pnpm configure` records your existing D1 UUID and Worker name. `pnpm deploy` builds, applies migrations, then deploys. `pnpm password:set` configures or rotates the password and session key after the first deployment. `pnpm setup:local` initializes local-only secrets and tables; `pnpm dev` starts local development.
+2. **Interactive ATS Resume Builder**:
+   - Live paper preview with multiple ATS-optimized styling templates (Modern, Classic, Minimal, Technical).
+   - ATS Keyword & Fit Analyzer comparing resume bullets against target job descriptions.
+   - Export to PDF (`@media print`) and JSON import/export.
 
-## Data and feature limits
+3. **Career Profile with 1-Click Resume Sync**:
+   - Select any built ATS resume to automatically autofill target role, education, technical skills, project evidence, and portfolio links.
+   - File dropzone supporting `.pdf`, `.json`, `.txt`, and `.md` with automated entity extraction using `unpdf`.
 
-Every application query remains owner-scoped. All existing seven schema migrations are preserved, with one additive migration for login-attempt limits. Source documents and social exports are not stored as raw uploads; normalized contacts and reviewed relationship fields persist in D1.
+4. **Live Job Board Scraper & Referral Matcher**:
+   - Crawls public tech company job boards (Greenhouse, Lever) for active internships and full-time roles.
+   - Cross-references listings with your network to flag employees who can refer you.
 
-The public crawler checks DNS, redirects, robots rules, page sizes and run budgets. It reads accessible HTML and PDF text, and does not bypass authentication or social-site restrictions. Published company inboxes and office phones are kept separate from named-person contacts. Missing social profile matches require review. Archive imports are snapshots, not live social-account sync. No guessed emails, hidden/private contact access, automatic messages or guarantee of deliverability is included.
+5. **Network Tools & Contact Discovery**:
+   - Import connections from LinkedIn CSV, Instagram JSON exports, and X archives.
+   - Web crawler for published company inboxes and team directories with DNS/SSRF protection and strict robots.txt adherence.
+   - Contextual outreach draft generator for connection notes, referral requests, and follow-ups.
 
-The current hosting's contacts can be exported/imported as CSV. A full database migration of network relationships, drafts and history requires separate work and identity mapping.
+---
 
-## Verification
+## Runtime & Stack
 
-Run `pnpm test`, `python tests/migrations.py`, `pnpm typecheck` and `pnpm build`. A Cloudflare-account deployment must be verified after you run the guide's commands. A local build or package does not claim that remote resources or a new live URL have already been created.
+- **Framework**: Vinext + React 19, Cloudflare Vite plugin, Cloudflare Workers, Cloudflare D1 SQLite, Drizzle ORM.
+- **Node**: Node 24+ and pnpm for local tooling.
+- **Authentication**: Salted PBKDF2-SHA256 password hashing (100,000 iterations), HMAC-signed 7-day session cookies, and credential-version invalidation on reset.
+
+---
+
+## Quick Start
+
+```bash
+# Install dependencies
+pnpm install
+
+# Setup local database & secrets
+pnpm setup:local
+pnpm db:local
+
+# Run tests
+pnpm test
+python tests/migrations.py
+
+# Run local preview server
+pnpm build
+pnpm preview
+```
+
+Open `http://127.0.0.1:4173/` in your browser.
