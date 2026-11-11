@@ -3,13 +3,19 @@
   "name": "leadforge-personal",
   "main": "worker.ts",
   "compatibility_date": "2026-05-15",
-  "compatibility_flags": ["nodejs_compat"],
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
   "workers_dev": true,
-  "vars": {"OWNER_NAME": "Ravi"},
-  "d1_databases": [{
-    "binding": "DB",
-    "database_name": "leadforge-personal-db",
-    "database_id": "00000000-0000-4000-8000-000000000000",
-    "migrations_dir": "drizzle"
-  }]
+  "vars": {
+    "OWNER_NAME": "Ravi"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "leadforge-personal-db",
+      "database_id": "69a151c9-bed3-4642-b3ac-d51c1addf3fe",
+      "migrations_dir": "drizzle"
+    }
+  ]
 }

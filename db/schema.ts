@@ -71,3 +71,23 @@ export const users = sqliteTable("users", {
   createdAt: text("created_at").notNull(),
   updatedAt: text("updated_at").notNull(),
 }, t => [uniqueIndex("users_email_unique").on(t.email)]);
+
+export const oauthConnections = sqliteTable("oauth_connections", {
+  id: text("id").primaryKey(),
+  ownerId: text("owner_id").notNull(),
+  provider: text("provider").notNull(), // 'google' | 'x' | 'linkedin'
+  providerAccountId: text("provider_account_id").notNull(),
+  accountEmail: text("account_email").notNull().default(""),
+  accountName: text("account_name").notNull().default(""),
+  accessToken: text("access_token").notNull().default(""),
+  refreshToken: text("refresh_token").notNull().default(""),
+  scope: text("scope").notNull().default(""),
+  expiresAt: integer("expires_at").notNull().default(0),
+  syncedCount: integer("synced_count").notNull().default(0),
+  lastSyncedAt: text("last_synced_at").notNull().default(""),
+  createdAt: text("created_at").notNull(),
+  updatedAt: text("updated_at").notNull(),
+}, t => [
+  uniqueIndex("oauth_owner_provider_account").on(t.ownerId, t.provider, t.providerAccountId),
+  index("oauth_owner_provider").on(t.ownerId, t.provider),
+]);
